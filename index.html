@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShadowCreator AI</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #000;
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Header */
+.header {
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Main Content */
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.card {
+    background: #111;
+    padding: 16px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 0 20px rgba(255,0,0,0.1);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0 25px rgba(255,0,0,0.3);
+}
+
+textarea {
+    width: 100%;
+    background: #000;
+    border: 1px solid #222;
+    color: white;
+    padding: 12px;
+    border-radius: 12px;
+    resize: none;
+    margin-bottom: 12px;
+}
+
+button {
+    background: crimson;
+    border: none;
+    padding: 14px;
+    width: 100%;
+    border-radius: 14px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Floating Button */
+.floating-btn {
+    position: fixed;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: crimson;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    box-shadow: 0 0 25px crimson;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Bottom Nav */
+.nav {
+    height: 60px;
+    background: #111;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav div {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.nav div.active {
+    color: crimson;
+}
+
+/* Smooth Animation */
+.fade-in {
+    animation: fade 0.4s ease;
+}
+
+@keyframes fade {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">ShadowCreator AI ⚡</div>
+
+<div class="content">
+
+    <div class="card">
+        <textarea id="ideaInput" rows="3" placeholder="Enter your video idea..."></textarea>
+        <button onclick="generateContent()">Generate</button>
+    </div>
+
+    <div id="resultArea"></div>
+
+</div>
+
+<div class="floating-btn" onclick="generateContent()">⚡</div>
+
+<div class="nav">
+    <div class="active">Home</div>
+    <div>Generate</div>
+    <div>Trends</div>
+    <div>Analytics</div>
+    <div>Profile</div>
+</div>
+
+<script>
+let lastIdea = "";
+
+function generateContent() {
+    const idea = document.getElementById("ideaInput").value;
+    if (!idea) return alert("Enter an idea first!");
+
+    lastIdea = idea;
+
+    if (navigator.vibrate) navigator.vibrate(50);
+
+    const hooks = [
+        `You won't believe this about ${idea}!`,
+        `This changed everything about ${idea}!`,
+        `Stop scrolling if you love ${idea}!`
+    ];
+
+    const script = `Today we are talking about ${idea}. 
+Here’s why it’s powerful and how it can change your content strategy in 2026.`;
+
+    const hashtags = `#${idea.replace(/\s+/g,'')} #viral #trending #contentcreator #2026`;
+
+    document.getElementById("resultArea").innerHTML = `
+        <div class="card fade-in">
+            <h3>Hooks</h3>
+            <p>${hooks[Math.floor(Math.random()*hooks.length)]}</p>
+        </div>
+
+        <div class="card fade-in">
+            <h3>Script</h3>
+            <p>${script}</p>
+        </div>
+
+        <div class="card fade-in">
+            <h3>Hashtags</h3>
+            <p>${hashtags}</p>
+        </div>
+    `;
+}
+
+/* Swipe to regenerate */
+let touchStartX = 0;
+
+document.addEventListener("touchstart", e => {
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.addEventListener("touchend", e => {
+    let diff = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(diff) > 80 && lastIdea) {
+        generateContent();
+    }
+});
+</script>
+
+</body>
+  </html>
